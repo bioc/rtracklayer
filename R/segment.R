@@ -70,7 +70,6 @@ setMethod("/", "genomeSegment", function(e1, e2) e1 * (1/e2))
 
 ## accessors
 
-setGeneric("genome", function(object, ...) standardGeneric("genome"))
 setMethod("genome", "genomeSegment", function(object) object@genome)
 
 setGeneric("genome<-", function(object, value) standardGeneric("genome<-"))
@@ -102,7 +101,6 @@ setReplaceMethod("end", "genomeSegment",
              x
            })
 
-setGeneric("chrom", function(object, ...) standardGeneric("chrom"))
 setMethod("chrom", "genomeSegment", function(object) object@chrom)
 
 setGeneric("chrom<-", function(object, value) standardGeneric("chrom<-"))

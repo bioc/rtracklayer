@@ -7,8 +7,6 @@
 \alias{initialize,trackSet-method}
 \alias{show,trackSet-method}
 
-\alias{chrom}
-\alias{strand}
 \alias{chrom,trackSet-method}
 \alias{start,trackSet-method}
 \alias{end,trackSet-method}
@@ -100,7 +98,7 @@ Class \code{"\link[Biobase:Versioned-class]{Versioned}"}, by class "eSet", dista
       column, which holds the mid-point of the segment of each
       feature. This is useful for e.g. plotting.
     }
-    \item{\code{\link{genome}(object)}}{Get the \code{genome} slot.}
+    \item{\code{\link[IRanges]{genome}(object)}}{Get the \code{genome} slot.}
     \item{as(trackSet, "data.frame")}{Equivalent to \code{trackData} above.}
     \item{\code{\link{trackSets}(object)}}{
       Create a \code{\linkS4class{trackSets}} instance initially containing only

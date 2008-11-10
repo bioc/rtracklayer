@@ -61,7 +61,6 @@ setMethod("chrom", "trackSet", function(object) {
 })
 
 ## sequence strand (+/-/NA)
-setGeneric("strand", function(object, ...) standardGeneric("strand"))
 setMethod("strand", "trackSet", function(object) {
   pData(featureData(object))$strand
 })
@@ -281,7 +280,8 @@ setMethod("trackSet", "character",
 setMethod("trackSet", "IRanges",
           function(object, chrom, strand = NA, dataVals = NULL, ...)
           {
-            fd <- trackFeatureData(chrom, start(object), end(object), strand)
+            fd <- trackFeatureData(as.character(chrom), start(object),
+                                   end(object), strand)
             trackSet(fd, dataVals, ...)
           })
 

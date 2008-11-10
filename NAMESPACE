@@ -1,9 +1,7 @@
 import(Biobase, RCurl, XML, rJava)
 
-importFrom("IRanges", "start<-")
-importFrom("IRanges", "end<-")
-importFrom("IRanges", "start")
-importFrom("IRanges", "end")
+importFrom("IRanges", "start<-", "end<-", "start", "end", "genome", "chrom",
+           "strand")
 
 importFrom(Biostrings, read.DNAStringSet)
 importFrom(Biostrings, BString)
@@ -31,6 +29,7 @@ exportMethods("activeView", "activeView<-", "browseGenome",
               "ucscTrackModes", "ucscTrackModes<-", "coerce", "initialize",
               "show", "[", "start", "start<-", "end", "end<-", "*", "/")
 
-export("genomeBrowsers", "start", "end", "start<-", "end<-")
+export("genomeBrowsers", "start", "end", "start<-", "end<-", "genome", "chrom",
+       "strand")
 
 S3method(c, genomeSegment)

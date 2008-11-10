@@ -3,7 +3,6 @@
 \alias{genomeSegment-class}
 \alias{merge,genomeSegment,genomeSegment-method}
 
-\alias{genome}
 \alias{genome,genomeSegment-method}
 \alias{chrom,genomeSegment-method}
 \alias{start,genomeSegment-method}
