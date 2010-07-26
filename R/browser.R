@@ -88,6 +88,13 @@ setReplaceMethod("track", c("BrowserSession", "RangedData"),
                    track(object, name, view, ...) <- RangedDataList(value)
                    object
                  })
+setReplaceMethod("track", c("BrowserSession", "ANY"),
+                 function(object, name = deparse(substitute(value)),
+                          view = FALSE, ..., value)
+                 {
+                   track(object, name, view, ...) <- as(value, "RangedData")
+                   object
+                 })
 # load several tracks into a browser
 # (this may be more efficient for some implementations)
 setReplaceMethod("track", c("BrowserSession", "RangedDataList"),
@@ -103,7 +110,7 @@ setReplaceMethod("track", c("BrowserSession", "RangedDataList"),
 
 setClassUnion("RangedDataORRangedDataList", c("RangedData", "RangedDataList"))
 
-setMethod("[[<-", c("BrowserSession", value="RangedDataORRangedDataList"),
+setMethod("[[<-", c("BrowserSession", value="ANY"),
           function(x, i, j, ..., value) {
             if (!missing(j))
               warning("argument 'j' ignored")
@@ -111,7 +118,7 @@ setMethod("[[<-", c("BrowserSession", value="RangedDataORRangedDataList"),
             x
           })
 
-setMethod("$<-", c("BrowserSession", value="RangedDataORRangedDataList"),
+setMethod("$<-", c("BrowserSession", value="ANY"),
           function(x, name, value) {
             x[[name]] <- value
             x
