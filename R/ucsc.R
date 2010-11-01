@@ -931,9 +931,10 @@ chooseGraphType <- function(from) {
   type <- "bedGraph"
   ## decide whether compression is a good idea
   steps <- diff(sort(start(r)))
-  if (length(unique(steps)) == 1 || # fixed-step makes sense
-      ((3 * length(unique(width(r)))) < length(r) && # makes sense wrt size
-       mean(steps) < 100)) # dense enough for UCSC efficiency
+  if (length(unique(width(r))) == 1L && # all spans must be the same for WIG
+      (length(unique(steps)) == 1L || # fixed-step makes sense
+       ((3L * length(unique(width(r)))) < length(r) && # makes sense wrt size
+        mean(steps) < 100))) # dense enough for UCSC efficiency
     type <- "wig"
   type
 }
