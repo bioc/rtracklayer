@@ -177,7 +177,7 @@ setMethod("show", "QuickloadGenome", function(object) {
   cat(IRanges:::labeledLine("names", names(object)))
 })
 
-genomeFile <- function(x) file.path(uri(x), "genome.txt")
+genomeFile <- function(x) file.path(uri(x), "mod_chromInfo.txt")
 annotsFile <- function(x) file.path(uri(x), "annots.xml")
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
