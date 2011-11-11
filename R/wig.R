@@ -141,7 +141,8 @@ setMethod("import.wigLines", "characterORconnection",
                 gd <- do.call(rbind, resultList)
               else
                 gd <- do.call(c, resultList)
-              genome(gd) <- genome
+              if (!is.null(genome))
+                genome(gd) <- genome
               gd
             } else {
               import(text = lines, format = "bed", variant = "bedGraph",
