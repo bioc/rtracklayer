@@ -298,7 +298,8 @@ setMethod("import", "GFFFile",
             if (is.null(colnames) || length(setdiff(colnames, extraCols))) {
               if (is(file, "GFF1File")) {
                 if (is.null(colnames) || "group" %in% colnames)
-                  attrList <- list(group = factor(attrCol))
+                  attrList <- list(group = factor(attrCol,
+                                                  levels=unique(attrCol)))
                 else attrList <- list()
               } else {
                 attrSplit <- strsplit(attrCol, ";", fixed=TRUE)
@@ -323,6 +324,7 @@ setMethod("import", "GFFFile",
                   vals <- vals[keep]
                   tags <- urlDecode(tags[keep])
                 }
+                tags <- factor(tags, levels=unique(tags))
                 lineByTag <- split(lines, tags)
                 valByTag <- split(vals, tags)
 
