@@ -2,7 +2,7 @@
 
 # every UCSC session is identified by a 'hgsid'
 setClass("UCSCSession",
-         representation(url = "character", hguid = "numeric",
+         representation(url = "character", hguid = "character",
                         views = "environment"),
          contains = "BrowserSession")
 
@@ -13,14 +13,17 @@ setMethod("initialize", "UCSCSession",
           {
             .Object@url <- url
             .Object@views <- new.env()
-            handle <- getCurlHandle(...)
+            handle <- getCurlHandle(followLocation=TRUE, ...)
             gw <- getURL(ucscURL(.Object, "gateway"), cookiefile = tempfile(),
                          header = TRUE, curl = handle)
-            cookie <- grep("Set-Cookie: hguid=", gw)
+            if (grepl("Location: [^[:space:]]+cgi-bin/", gw))
+              .Object@url <-              # update url, e.g., redirect?
+                sub(".*Location: ([^[:space:]]+cgi-bin/).*", "\\1", gw)
+            cookie <- grep("Set-Cookie: hguid[^=]*=", gw)
             if (!length(cookie))
               stop("Failed to obtain 'hguid' cookie")
-            hguid <- gsub(".*Set-Cookie: hguid=([^;]*);.*", "\\1", gw)
-            .Object@hguid <- as.numeric(hguid)
+            hguid <- sub(".*Set-Cookie: (hguid[^=]*=[^;]*);.*", "\\1", gw)
+            .Object@hguid <- hguid
             if (!is.null(user) && !is.null(session)) { ## bring in other session
               ucscGet(.Object, "tracks",
                       list(hgS_doOtherUser = "submit", hgS_otherUserName = user,
@@ -1611,13 +1614,11 @@ setMethod("ucscForm", "NULL", function(object) list())
 
 # Transforming to a cookie
 
-cookiePair <- function(key, value) paste(key, value, sep = "=")
-
 setGeneric("ucscCookie", function(object, ...) standardGeneric("ucscCookie"))
 setMethod("ucscCookie", "UCSCSession",
           function(object)
           {
-            cookiePair("hguid", object@hguid)
+            object@hguid
           })
 
 # HTTP wrappers
