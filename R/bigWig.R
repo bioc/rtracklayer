@@ -217,7 +217,7 @@ setMethod("import", "BigWigFile",
 
 rdToRle <- function(x) {
   RleList(mapply(function(r, v, sl) {
-    IRanges:::.Ranges.coverage(r, width=sl, weight=v$score)
+    coverage(r, width=sl, weight=v$score)
   }, ranges(x), values(x), seqlengths(x), SIMPLIFY=FALSE), compress=FALSE)
 }
 
