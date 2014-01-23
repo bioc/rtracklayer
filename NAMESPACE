@@ -57,6 +57,8 @@ importFrom("BSgenome", installed.genomes, releaseDate, organism,
 importFrom("Rsamtools", path, indexTabix, headerTabix, scanTabix, bgzip,
            TabixFile, index, asBam)
 
+importMethodsFrom("Rsamtools", readGAlignmentsFromBam)
+
 importClassesFrom("Rsamtools", RsamtoolsFile)
 
 importFrom("tools", file_path_as_absolute, file_path_sans_ext)
