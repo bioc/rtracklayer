@@ -2538,9 +2538,7 @@ off_t mustLseek(int fd, off_t offset, int whence)
 {
 off_t ret = lseek(fd, offset, whence);
 if (ret < 0)
-    errnoAbort("lseek(%d, %lld, %s (%d)) failed", fd, (long long)offset,
-	       ((whence == SEEK_SET) ? "SEEK_SET" : (whence == SEEK_CUR) ? "SEEK_CUR" :
-		(whence == SEEK_END) ? "SEEK_END" : "invalid 'whence' value"), whence);
+  errnoAbort("lseek failed: %s", strerror(errno));
 return ret;
 }
 
