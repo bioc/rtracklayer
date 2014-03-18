@@ -182,7 +182,8 @@ SEXP BWGFile_seqlengths(SEXP r_filename) {
     SET_STRING_ELT(seqlengthNames, i, mkChar(chrom->name));
     chrom = chrom->next;
   }
-  
+
+  bbiFileClose(&file);
   bbiChromInfoFreeList(&chromList);
   popRHandlers();
   UNPROTECT(1);
@@ -285,6 +286,7 @@ SEXP BWGFile_summary(SEXP r_filename, SEXP r_chrom, SEXP r_ranges,
       error("Failed to summarize range %d (%s:%d-%d)", i, chrom, start[i],
             start[i] - 1 + width[i]);
   }
+  bbiFileClose(&file);
   popRHandlers();
   UNPROTECT(1);
   return ans;
