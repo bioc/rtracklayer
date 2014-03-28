@@ -625,7 +625,7 @@ setMethod("getTable", "UCSCTableQuery",
           })
 
 ## UCSC genome view
-setClass("UCSCView", representation(hgsid = "numeric"),
+setClass("UCSCView", representation(hgsid = "character"),
          contains = "BrowserView")
 
 ## create a view for the given session, position and track visibility settings
@@ -656,7 +656,7 @@ setMethod("browserView", "UCSCSession",
             doc <- ucscGet(object, "gateway")
             node <- getNodeSet(doc, "//input[@name = 'hgsid']/@value")[[1]]
             hgsid <- node ##xmlValue(node)
-            view@hgsid <- as.numeric(hgsid)
+            view@hgsid <- as.character(hgsid)
             ## figure out track modes
             origModes <- modes <- ucscTrackModes(view)
             if (!missing(track)) {
