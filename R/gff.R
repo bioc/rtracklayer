@@ -70,6 +70,14 @@ setMethod("export", c("ANY", "GFFFile"),
             export(object, con, ...)
           })
 
+setMethod("export", c("GRangesList", "GFFFile"),
+          function(object, con, format, ...)
+          {
+            object <- asGFF(object)
+            callGeneric()
+          }
+          )
+
 setMethod("export", c("GenomicRanges", "GFFFile"),
           function(object, con, format, version = c("1", "2", "3"),
                    source = "rtracklayer", append = FALSE, index = FALSE)
