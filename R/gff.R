@@ -230,7 +230,8 @@ setMethod("import.gff", "ANY",
     on.exit(close(con))
     writeLines(paste0(sub(";$", "", attrCol), sentinel), con)
     attrs <- scan(con, what=character(),
-                  strip.white = TRUE, quiet = TRUE, sep = ";")
+                  strip.white = TRUE, quiet = TRUE, sep = ";",
+                  quote = if (is(file, "GFF3File")) "" else "\"")
     lines <- togroup(PartitioningByEnd(grep(sentinel, attrs, fixed = TRUE)))
     attrs <- sub(sentinel, "", attrs, fixed = TRUE)
     tag.value.sep <- if (is(file, "GFF3File")) "=" else " "
