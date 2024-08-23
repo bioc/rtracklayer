@@ -15,12 +15,12 @@ time_t header_get_last_modified(CURL *curl) {
     curl_off_t last_modified;
 
     #if LIBCURL_VERSION_NUM >= 0x073b00
-        #define FILETIME CURLINFO_FILETIME_T
+        #define CI_FILETIME CURLINFO_FILETIME_T
     #else
-        #define FILETIME CURLINFO_FILETIME
+        #define CI_FILETIME CURLINFO_FILETIME
     #endif
 
-    CURLcode status = curl_easy_getinfo(curl, FILETIME, &last_modified);
+    CURLcode status = curl_easy_getinfo(curl, CI_FILETIME, &last_modified);
 
     if ((CURLE_OK == status) && (last_modified >= 0)) {
         struct tm *utc_tm_info = gmtime(&last_modified);
@@ -37,8 +37,14 @@ time_t header_get_last_modified(CURL *curl) {
 
 long long header_get_content_length(CURL *curl) {
     curl_off_t content_length;
-    CURLcode status = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T,
-                                        &content_length);
+
+    #if LIBCURL_VERSION_NUM >= 0x073700
+        #define CI_CONTENT_LENGTH CURLINFO_CONTENT_LENGTH_DOWNLOAD_T
+    #else
+        #define CI_CONTENT_LENGTH CURLINFO_CONTENT_LENGTH_DOWNLOAD
+    #endif
+
+    CURLcode status = curl_easy_getinfo(curl, CI_CONTENT_LENGTH, &content_length);
 
     // could not retrieve length
     if (content_length == -1)
@@ -160,7 +166,14 @@ int netUrlOpenSockets(char *url, int *retCtrlSocket) {
         } else if (startsWith("ftp://", url)) {
             curl_socket_t ctrlSocket;
             CURLcode status = wrapped_curl_request(curl, GET);
-            curl_easy_getinfo(curl, CURLINFO_ACTIVESOCKET, &ctrlSocket);
+
+            #if LIBCURL_VERSION_NUM >= 0x072d00
+                #define CI_SOCKET CURLINFO_ACTIVESOCKET
+            #else
+                #define CI_SOCKET CURLINFO_LASTSOCKET
+            #endif
+
+            curl_easy_getinfo(curl, CI_SOCKET, &ctrlSocket);
 
             if (retCtrlSocket != NULL)
                 *retCtrlSocket = ctrlSocket;
